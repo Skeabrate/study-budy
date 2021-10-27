@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledAverageIcon } from './AverageIcon.styles';
-import { theme } from '../../../assets/styles/theme';
+import { theme } from '../../assets/styles/theme';
 
 const AverageIcon = ({ average }) => {
 
