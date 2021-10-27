@@ -11,10 +11,6 @@ export const StyledListItem = styled.li`
       padding-bottom: 0;
    }
 
-   &:first-child{
-      padding-top: 0;
-   }
-
    &:not(:last-child)::after {
       content: "";
       position: absolute;
