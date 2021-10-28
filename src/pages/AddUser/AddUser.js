@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import FormField from '../../components/FormField/FormField';
 import { StyledTitle } from '../../components/Label/Label.styles';
 import { StyledAddButton } from "../../components/AddButton/AddButton.styles"
 import { Wrapper } from '../../components/Wrapper/Wrapper.styles';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import UsersContext from '../../context/UsersContext';
 
 const initialFormState = {
    name: "",
@@ -11,9 +12,10 @@ const initialFormState = {
    average: "",
 };
 
-const AddUser = ({ usersData, setUsersData }) => {
+const AddUser = ({ setUsersData }) => {
    const [formValue, setFormValue] = useState(initialFormState);
 
+   const { usersData } = useContext(UsersContext)
    const history = useHistory()
 
    const handleInputChange = (e) => {
