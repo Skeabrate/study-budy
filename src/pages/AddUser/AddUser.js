@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useRef } from 'react';
 import FormField from '../../components/FormField/FormField';
 import { StyledTitle } from '../../components/Label/Label.styles';
 import { StyledAddButton } from "../../components/AddButton/AddButton.styles"
@@ -10,41 +10,90 @@ const initialFormState = {
    name: "",
    attendance: "",
    average: "",
+   consent: false,
+   showError: false,
 };
 
+const reducer = (state, action) => {
+   switch (action.type){
+      case 'CHANGE_INPUT':
+         return {
+            ...state,
+            [action.field]: action.value, 
+         }
+      
+      case "CLEAR_VALUES":
+         return initialFormState
+
+      case "CHANGE_CONSENT":
+         return {
+            ...state,
+            [action.field]: !state.consent
+         }
+
+      case "SHOW_ERROR":
+         return {
+            ...state,
+            showError: !state.showError,
+         }
+
+      default:
+         return state
+   }
+}
+
 const AddUser = ({ setUsersData }) => {
-   const [formValue, setFormValue] = useState(initialFormState);
+   const [formValue, dispatch] = useReducer(reducer, initialFormState);
 
    const { usersData } = useContext(UsersContext)
    const history = useHistory()
+   const firstFormField = useRef(null)
+
+   useEffect(() => {
+      firstFormField.current.focus()
+   }, [])
 
    const handleInputChange = (e) => {
-      setFormValue({
-         ...formValue,
-         [e.currentTarget.name]: e.currentTarget.value,
-      });
-      console.log(formValue);
+      dispatch({
+         type: 'CHANGE_INPUT',
+         field: e.target.name,
+         value: e.target.value,
+      })
+      console.log(formValue)
    };
 
    const handleAddUser = (e) => {
       e.preventDefault();
 
-      const newUser = {
-         name: formValue.name,
-         attendance: formValue.attendance,
-         average: formValue.average,
-      };
-
-      setUsersData([newUser, ...usersData]);
-      setFormValue(initialFormState);
-      history.push("/")
+      if(formValue.consent){
+         setUsersData([formValue, ...usersData]);
+         dispatch({
+            type: "CLEAR_VALUES"
+         })
+         history.push('/')
+      } else {
+         dispatch({
+            type: "SHOW_ERROR",
+         })
+      }
    };
+
+   const handleConsent = (e) => {
+      dispatch({
+         type: "CHANGE_CONSENT",
+         field: e.target.name,
+      })
+      dispatch({
+         type: "SHOW_ERROR",
+      })
+   }
 
    return (
       <>
          <Wrapper as="form" onSubmit={handleAddUser}>
             <StyledTitle>Add new student</StyledTitle>
             <FormField
+               ref={firstFormField}
                label="Name"
                id="name"
                name="name"
@@ -65,7 +114,16 @@ const AddUser = ({ setUsersData }) => {
                value={formValue.average}
                onChange={handleInputChange}
             />
+            <FormField 
+               label="Consent"
+               id="consent"
+               name="consent"
+               type="checkbox"
+               value={formValue.consent}
+               onChange={handleConsent}
+            />
             <StyledAddButton type="submit">Add</StyledAddButton>
+            {formValue.showError ? <p>You need to give consent!</p> : null}
          </Wrapper>
       </>
    );

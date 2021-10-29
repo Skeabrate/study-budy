@@ -4,7 +4,6 @@ import { Wrapper, StyledLogo, StyledNav, StyledLink } from "./Navigation.styles"
 const Navigation = () => {
    return (
       <Wrapper>
-
          <StyledLogo>
             Study
             <br />
