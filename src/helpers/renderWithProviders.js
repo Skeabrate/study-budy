@@ -6,8 +6,5 @@ import { render } from '@testing-library/react'
 import UsersContext from '../context/UsersContext'
 
 export const renderWithProviders = (children) => {
-   return render(
-      <ThemeProvider theme={theme}>
-         {children}
-      </ThemeProvider>)
+   return render(<ThemeProvider theme={theme}>{children}</ThemeProvider>)
 }
