@@ -15,6 +15,13 @@ import { useEffect } from 'react/cjs/react.development';
 
 const App = () => {
   const [usersData, setUsersData] = useState([])
+  const [group, setGroup] = useState('')
+
+  useEffect(() => {
+     axios.get('/groups')
+        .then(({data}) => setGroup(data.groups[0]))
+        .then(console.log(group))
+  }, [])
 
   useEffect(() => {
     axios.get('/students')
@@ -25,16 +32,16 @@ const App = () => {
   const content = (
     <Switch>
 
-      <Route exact path="/">
-        <Redirect to="/group" />
-      </Route>
-
-      <Route path="/group/:id?">
+      <Route path="/group/:id">
         <UsersList setUsersData={setUsersData}/>
       </Route>
 
       <Route path="/Add-user">
         <AddUser setUsersData={setUsersData}/>
+      </Route>
+
+      <Route path="/">
+        <Redirect to={`/group/${group}`} />
       </Route>
 
     </Switch>

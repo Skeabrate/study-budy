@@ -1,6 +1,6 @@
 import React from 'react';
 import UsersListItem from './UsersListItem/UsersListItem';
-import { StyledList } from './UsersList.styles';
+import { StyledList, StyledDashboard, StyledGroupsNav } from './UsersList.styles';
 import { StyledTitle } from '../../components/Label/Label.styles';
 import { Wrapper } from '../../components/Wrapper/Wrapper.styles';
 import PropTypes from 'prop-types'
@@ -30,13 +30,15 @@ const UsersList = () => {
   }
 
    return (
-     <>
+     <StyledDashboard>
+      <StyledGroupsNav>
+        <StyledTitle>Group {id}</StyledTitle>
+        {groups.map(group => (
+          <Link to={`/group/${group}`} key={group}>{group}</Link>
+        ))}
+      </StyledGroupsNav>
+
       <Wrapper>
-        <nav>
-          {groups.map(group => (
-            <Link to={`/group/${group}`} key={group}>{group}</Link>
-          ))}
-        </nav>
         <StyledTitle>Students list</StyledTitle>
         <StyledList>
           {students.map((user) => (
@@ -44,7 +46,7 @@ const UsersList = () => {
           ))}
         </StyledList>
       </Wrapper>
-     </>
+     </StyledDashboard>
    );
 };
 

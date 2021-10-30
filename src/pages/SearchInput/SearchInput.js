@@ -1,42 +1,32 @@
+import axios from 'axios';
 import React from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-   display: flex;
-   align-items: center;
-   border-bottom: 1px solid #DFE2E8;
-   padding-left: 50px; 
-`
-
-const StyledSpan = styled.span`
-   font-size: ${({ theme }) => theme.fontSize.m};
-   color: ${({ theme }) => theme.colors.darkGrey};
-
-   &:not(:first-child){
-      font-weight: bold;
-      font-size: ${({ theme }) => theme.fontSize.l};
-   }
-`
-
-const StyledInput = styled.input`
-   width: 30vw;
-   margin-left: 50px;
-   border: none;
-   padding: 15px 30px;
-   border-radius: 30px;
-   box-shadow: 0 5px 15px -10px rgb(0 0 0 / 30%);
-
-   ::placeholder {
-      color: ${({ theme }) => theme.colors.grey}
-   }
-
-   &:focus{
-      outline: none;
-      box-shadow: -2px 4px 10px rgba(115, 124, 142, 0.3);
-   }
-`
+import { useEffect, useState } from 'react/cjs/react.development';
+import { decodeString } from '../../helpers/decodeString';
+import { Wrapper, StyledSpan, StyledInput, StyledList, StyledListItem} from "./SearchInput.styles"
 
 const SearchInput = () => {
+   const [inputValue, setInputValue] = useState('')
+   const [students, setStudents] = useState([])
+   const [openList, setOpenList] = useState(false)
+
+   useEffect(() => {
+      if(inputValue === '') return null
+      else {
+         axios.get(`/student/${decodeString(inputValue.replace(/\s/g, ''))}`)
+            .then(({data}) => setStudents(data.students))
+      }
+   }, [inputValue])
+
+   const handleInputChange = (e) => {
+      setInputValue(e.target.value)
+      setOpenList(true)
+   }
+
+   const handleFindStudent = (student) => {
+      setInputValue(student)
+      setOpenList(false)
+   }
+
    return (
       <Wrapper>
          <label>
@@ -45,7 +35,27 @@ const SearchInput = () => {
             <StyledSpan>Teacher</StyledSpan>
          </label>
          
-         <StyledInput placeholder='find student'/>         
+         
+         <div style={{ position: 'relative' }}>
+            <StyledInput placeholder='find student' value={inputValue} onChange={handleInputChange} />
+            {inputValue !== '' && openList ? (
+               <>
+                  {students.length !== 0 ? (
+                     <StyledList>
+                        {students.map((student) => (
+                           <StyledListItem 
+                              key={student.id} 
+                              onClick={() => handleFindStudent(student.name)}
+                           >
+                              {students.length !== 0 ? `${student.name}` : 'No matching students'}
+                           </StyledListItem>
+                        ))}
+                     </StyledList>
+                  ) : <StyledList><StyledListItem>No matching students!</StyledListItem></StyledList>}
+               </>
+            ) : null}
+         </div>
+
       </Wrapper>
    );
 };
