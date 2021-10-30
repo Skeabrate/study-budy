@@ -1,26 +1,46 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import UsersListItem from './UsersListItem/UsersListItem';
 import { StyledList } from './UsersList.styles';
 import { StyledTitle } from '../../components/Label/Label.styles';
 import { Wrapper } from '../../components/Wrapper/Wrapper.styles';
 import PropTypes from 'prop-types'
-import UsersContext from '../../context/UsersContext';
+import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useEffect, useState } from 'react/cjs/react.development';
+import axios from 'axios';
 
-const UsersList = ({ setUsersData }) => {
-  const { usersData } = useContext(UsersContext)
-  
+const UsersList = () => {
+  const [students, setStudents] = useState([])
+  const [groups, setGroups] = useState([])
+  const { id } = useParams()
+
+  useEffect(() => {
+    axios.get('/groups')
+      .then(({data}) => setGroups(data.groups))
+  }, [])
+
+  useEffect(() => {
+    axios.get(`/students/${id}`)
+      .then(({data}) => setStudents(data.students))
+      .catch((err) => console.log(err))
+  }, [id])
+
   const deleteUser = (name) => {
-    const filtredUsers = usersData.filter(user => user.name !== name)
-    setUsersData(filtredUsers)
+    const filtredUsers = students.filter(user => user.name !== name)
+    setStudents(filtredUsers)
   }
 
    return (
      <>
       <Wrapper>
+        <nav>
+          {groups.map(group => (
+            <Link to={`/group/${group}`} key={group}>{group}</Link>
+          ))}
+        </nav>
         <StyledTitle>Students list</StyledTitle>
         <StyledList>
-          {usersData.map((user) => (
-              <UsersListItem deleteUser={() => deleteUser(user.name)} user={user} key={user.name}/>
+          {students.map((user) => (
+              <UsersListItem deleteUser={() => deleteUser(user.name)} user={user} key={user.id}/>
           ))}
         </StyledList>
       </Wrapper>

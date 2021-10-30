@@ -12,7 +12,7 @@ const Navigation = () => {
 
          <StyledNav>
             <li>
-               <StyledLink exact to="/">Dashboard</StyledLink>
+               <StyledLink to="/group">Dashboard</StyledLink>
             </li>
 
             <li>

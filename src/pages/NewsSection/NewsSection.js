@@ -8,7 +8,6 @@ export default function NewsSection(){
    const [error, setError] = useState('')
 
    useEffect(() => {
-      console.log(process.env.REACT_APP_DATOCMS_TOKEN)
       axios.post('https://graphql.datocms.com/',
          {
             query: `
@@ -43,8 +42,8 @@ export default function NewsSection(){
             </header>
 
             {articles.length > 0 ? articles.map(({id, title, category, content, image = null}) => (
-               <div style={{marginBottom: '50px'}}>
-                  <Wrapper key={id}>
+               <div key={id} style={{marginBottom: '50px'}}>
+                  <Wrapper>
                      <header>
                         <StyledTitle>{title}</StyledTitle>
                         <StyledDescription>{category}</StyledDescription>
