@@ -36,6 +36,7 @@ export const StyledInput = styled.input`
 `
 
 export const StyledList = styled.ul`
+   visibility: ${({isOpen}) => isOpen ? 'visible' : 'hidden'};
    position: absolute;
    left: 50px;
    top: 55px;
@@ -56,6 +57,7 @@ export const StyledListItem = styled.li`
    font-size: 14px;
    font-weight: 700;
    color: ${({ theme }) => theme.colors.darkGrey};
+   background-color: ${({theme, isHighlighted}) => isHighlighted ? theme.colors.darkPurple : theme.colors.white};
    transition: background-color .1s ease-in-out;
    cursor: pointer;
 `
