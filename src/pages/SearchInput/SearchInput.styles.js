@@ -53,9 +53,18 @@ export const StyledList = styled.ul`
 export const StyledListItem = styled.li`
    padding: 20px;
    border-bottom: 1px solid #DFE2E8;
-   font-size: 14px;
-   font-weight: 700;
-   color: ${({ theme }) => theme.colors.darkGrey};
    transition: background-color .1s ease-in-out;
-   cursor: pointer;
+   background-color: white;
+
+   &:hover{
+      background-color: ${({theme}) => theme.colors.lightGrey};
+   }
+
+   button{
+      font-size: 14px;
+      font-weight: 700;
+      color: ${({ theme }) => theme.colors.darkGrey};
+      border: none;
+      background-color: white;
+   }
 `

@@ -47,7 +47,8 @@ const SearchInput = () => {
                               key={student.id} 
                               onClick={() => handleFindStudent(student.name)}
                            >
-                              {students.length !== 0 ? `${student.name}` : 'No matching students'}
+                              <button>{students.length !== 0 ? `${student.name}` : 'No matching students'}</button>
+
                            </StyledListItem>
                         ))}
                      </StyledList>
