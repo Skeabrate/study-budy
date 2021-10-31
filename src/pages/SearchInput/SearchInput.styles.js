@@ -36,6 +36,7 @@ export const StyledInput = styled.input`
 `
 
 export const StyledList = styled.ul`
+   visibility: ${({isOpen}) => isOpen ? 'visible' : 'hidden'};
    position: absolute;
    left: 50px;
    top: 55px;
@@ -53,18 +54,9 @@ export const StyledList = styled.ul`
 export const StyledListItem = styled.li`
    padding: 20px;
    border-bottom: 1px solid #DFE2E8;
-   transition: background-color .1s ease-in-out;
-   background-color: white;
-
-   &:hover{
-      background-color: ${({theme}) => theme.colors.lightGrey};
-   }
-
-   button{
-      font-size: 14px;
-      font-weight: 700;
-      color: ${({ theme }) => theme.colors.darkGrey};
-      border: none;
-      background-color: white;
+   font-size: 14px;
+   font-weight: 700;
+   color: ${({ theme }) => theme.colors.darkGrey};
+   background-color: ${({theme, isHighlighted}) => isHighlighted ? theme.colors.darkPurple : theme.colors.white};
    }
 `
