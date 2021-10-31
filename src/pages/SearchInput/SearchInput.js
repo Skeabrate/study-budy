@@ -12,14 +12,10 @@ const SearchInput = () => {
    const fetchStudents = ({inputValue}) => {
       axios.get(`/student/${decodeString(inputValue.replace(/\s/g, ''))}`)
       .then(({data}) => setStudents(objectToArray(data.students)))
-
-      console.log(students[0])
    }
 
    const {
       isOpen,
-      getToggleButtonProps,
-      getLabelProps,
       getMenuProps,
       getInputProps,
       getComboboxProps,
@@ -41,11 +37,11 @@ const SearchInput = () => {
          
          <div style={{ position: 'relative' }} {...getComboboxProps()}>
             <StyledInput {...getInputProps()} placeholder='find student'/>
-               <StyledList isOpen={isOpen } {...getMenuProps()}>
+               <StyledList isOpen={isOpen && students.length > 0} {...getMenuProps()}>
                   {isOpen &&
                      students.map((student, index) => (
-                        <StyledListItem isHighlighted={highlightedIndex === index} {...getItemProps({student, index})} key={student.id} >
-                           {student.name}
+                        <StyledListItem isHighlighted={highlightedIndex === index} {...getItemProps({student, index})} key={index} >
+                           {student}
                         </StyledListItem>
                   ))}
                </StyledList>     
