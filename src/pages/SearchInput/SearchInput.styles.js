@@ -58,6 +58,5 @@ export const StyledListItem = styled.li`
    font-weight: 700;
    color: ${({ theme }) => theme.colors.darkGrey};
    background-color: ${({theme, isHighlighted}) => isHighlighted ? theme.colors.darkPurple : theme.colors.white};
-   transition: background-color .1s ease-in-out;
-   cursor: pointer;
+   }
 `

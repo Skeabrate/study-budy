@@ -34,7 +34,6 @@ const SearchInput = () => {
             <StyledSpan>Teacher</StyledSpan>
          </label>
          
-         
          <div style={{ position: 'relative' }} {...getComboboxProps()}>
             <StyledInput {...getInputProps()} placeholder='find student'/>
                <StyledList isOpen={isOpen && students.length > 0} {...getMenuProps()}>
