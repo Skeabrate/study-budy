@@ -2,7 +2,7 @@ export const decodeString = (val) => {
    const data = ['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż']
    const replaceData = ['a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z']
    
-   let newString = []
+   const newString = []
 
       for(let i=0; i<val.length; i++){
          newString.push(val[i])
@@ -11,9 +11,7 @@ export const decodeString = (val) => {
                newString.pop(val[i])
                newString.push(replaceData[j])
             }
-            else{
-               continue
-            }
+            else continue
          }
       }
 

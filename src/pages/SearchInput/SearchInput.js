@@ -1,17 +1,19 @@
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react/cjs/react.development';
-import { decodeString } from '../../helpers/decodeString';
 import { Wrapper, StyledSpan, StyledInput, StyledList, StyledListItem} from "./SearchInput.styles"
 import { useCombobox } from "downshift"
-import { objectToArray } from '../../helpers/objects';
 
 const SearchInput = () => {
    const [students, setStudents] = useState([])
 
-   const fetchStudents = ({inputValue}) => {
-      axios.get(`/student/${decodeString(inputValue.replace(/\s/g, ''))}`)
-      .then(({data}) => setStudents(objectToArray(data.students)))
+   const fetchStudents = async ({inputValue}) => {
+      try{
+         const res = await axios.post(`/students/search`, {inputValue})
+         setStudents(res.data.students)
+      } catch (ex) {
+         console.log(ex)
+      }
    }
 
    const {
@@ -40,7 +42,7 @@ const SearchInput = () => {
                   {isOpen &&
                      students.map((student, index) => (
                         <StyledListItem isHighlighted={highlightedIndex === index} {...getItemProps({student, index})} key={index} >
-                           {student}
+                           {student.name}
                         </StyledListItem>
                   ))}
                </StyledList>     

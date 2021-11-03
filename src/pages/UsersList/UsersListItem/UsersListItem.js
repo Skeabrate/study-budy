@@ -4,9 +4,9 @@ import { StyledListItem, StyledName, StyledAttendance, StyledInfoWrapper } from 
 import DeleteButton from "../../../components/DeleteButton/DeleteButton"
 import AverageIcon from "../../../components/AverageIcon/AverageIcon"
 
-const UsersListItem = ({deleteUser, user: { average, name, attendance = "0" } }) => {
+const UsersListItem = ({deleteUser, onClick, user: { average, name, attendance = "0" }}) => {
    return (
-      <StyledListItem>
+      <StyledListItem onClick={onClick}>
          <AverageIcon average={average}/>
          <StyledInfoWrapper>
             <div>
@@ -17,14 +17,6 @@ const UsersListItem = ({deleteUser, user: { average, name, attendance = "0" } })
          </StyledInfoWrapper>
       </StyledListItem>
    );
-};
-
-UsersListItem.propTypes = {
-   user: PropTypes.shape({
-      average: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      attendance: PropTypes.string,
-   }),
 };
 
 export default UsersListItem;

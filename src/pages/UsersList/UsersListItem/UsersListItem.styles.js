@@ -6,6 +6,7 @@ export const StyledListItem = styled.li`
    position: relative;
    gap: 22px;
    padding: 30px 0;
+   cursor: pointer;
 
    &:last-child{
       padding-bottom: 0;

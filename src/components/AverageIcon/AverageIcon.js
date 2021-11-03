@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledAverageIcon } from './AverageIcon.styles';
 import { theme } from '../../assets/styles/theme';
 
-const AverageIcon = ({ average }) => {
+const AverageIcon = ({ average, isBig }) => {
 
    const iconColorHandler = () => {
       if( average < 3 ) return theme.colors.error
@@ -11,7 +11,7 @@ const AverageIcon = ({ average }) => {
    }
 
    return (
-      <StyledAverageIcon average={iconColorHandler}>{average}</StyledAverageIcon>
+      <StyledAverageIcon isBig={isBig} average={iconColorHandler}>{average}</StyledAverageIcon>
    );
 };
 

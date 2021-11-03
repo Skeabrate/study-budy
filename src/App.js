@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './assets/styles/GlobalStyle';
 import { theme } from './assets/styles/theme';
@@ -7,37 +7,37 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import UsersList from './pages/UsersList/UsersList';
 import AddUser from './pages/AddUser/AddUser';
 import Navigation from './pages/Navigation/Navigation';
-import UsersContext from "./context/UsersContext"
 import NewsSection from './pages/NewsSection/NewsSection';
 import SearchInput from './pages/SearchInput/SearchInput';
 import axios from 'axios';
-import { useEffect } from 'react/cjs/react.development';
 
 const App = () => {
-  const [usersData, setUsersData] = useState([])
   const [group, setGroup] = useState('')
 
-  useEffect(() => {
-     axios.get('/groups')
-        .then(({data}) => setGroup(data.groups[0]))
-        .then(console.log(group))
-  }, [])
+  const fetchGroup = async () => {
+    try{
+      const res = await axios.get('/groups')
+      const newGroup = res.data.groups[0].id
+      setGroup(newGroup)
+
+    } catch(ex) {
+      console.log(ex)
+    }
+  }
 
   useEffect(() => {
-    axios.get('/students')
-      .then(({ data }) => setUsersData(data.students))
-      .catch(err => console.log(err))
+    fetchGroup()
   }, [])
 
   const content = (
     <Switch>
 
       <Route path="/group/:id">
-        <UsersList setUsersData={setUsersData}/>
+        <UsersList />
       </Route>
 
       <Route path="/Add-user">
-        <AddUser setUsersData={setUsersData}/>
+        <AddUser />
       </Route>
 
       <Route path="/">
@@ -51,9 +51,6 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <UsersContext.Provider value={{
-          usersData: usersData,
-        }}>
           <Wrapper>
 
             <Navigation />
@@ -69,7 +66,6 @@ const App = () => {
             <NewsSection />
 
           </Wrapper>
-        </UsersContext.Provider>
       </ThemeProvider>
     </Router>
   );
